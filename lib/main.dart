@@ -1,12 +1,29 @@
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:session_23_itc_firebase/home_screen.dart';
 import 'package:session_23_itc_firebase/login_screen.dart';
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  if (!kIsWeb) {
+    await Firebase.initializeApp();
+  } else {
+    await Firebase.initializeApp(
+      options: FirebaseOptions(
+        apiKey: 'AIzaSyDtBQBrkJ0dT9GFpG4rwX0ZafcvAy85cOc',
+        appId: '1:109028761168:web:9820184f79aa8a8eaafb55',
+        messagingSenderId: '109028761168',
+        projectId: 'session-22-itc',
+        authDomain: 'session-22-itc.firebaseapp.com',
+        storageBucket: 'session-22-itc.firebasestorage.app',
+        measurementId: 'G-3LYPVGJ3HQ',
+      ),
+    );
+  }
   runApp(const MyApp());
 }
 
@@ -36,7 +53,9 @@ class MyApp extends StatelessWidget {
         // tested with just a hot reload.
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: FirebaseAuth.instance.currentUser != null ?HomeScreen():LoginScreen(),
+      home: FirebaseAuth.instance.currentUser != null
+          ? HomeScreen()
+          : LoginScreen(),
     );
   }
 }
