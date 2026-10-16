@@ -11,7 +11,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _bodyController = TextEditingController();
 
@@ -24,50 +23,45 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-
               SizedBox(height: 100),
               TextFormField(
                 controller: _titleController,
                 decoration: InputDecoration(
                   hintText: "Title",
                   enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12)
+                    borderRadius: BorderRadius.circular(12),
                   ),
-                    focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12)
-                    )
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
                 ),
               ),
               SizedBox(height: 24),
               TextFormField(
                 controller: _bodyController,
                 decoration: InputDecoration(
-                    hintText: "body",
-                    enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12)
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12)
-                    )
-
+                  hintText: "body",
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
                 ),
                 maxLines: 16,
               ),
 
               ElevatedButton(
-                onPressed: (){
+                onPressed: () {
                   var firestore = FirebaseFirestore.instance;
-                  
-                   firestore.collection("users").add({
-                    "title":_titleController.text,
-                    "body":_bodyController.text,
 
+                  firestore.collection("users").add({
+                    "title": _titleController.text,
+                    "body": _bodyController.text,
                   });
-
                 },
-                child: Text("Add Todo",style: TextStyle(color: Colors.green),),
+                child: Text("Add Todo", style: TextStyle(color: Colors.green)),
               ),
-
 
               ElevatedButton(
                 onPressed: () {
