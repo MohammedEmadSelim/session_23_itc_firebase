@@ -4,6 +4,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:session_23_itc_firebase/cubits/home_cubit/home_cubit.dart';
 import 'package:session_23_itc_firebase/home_screen.dart';
 import 'package:session_23_itc_firebase/login_screen.dart';
 
@@ -54,7 +56,10 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
       home: FirebaseAuth.instance.currentUser != null
-          ? HomeScreen()
+          ? BlocProvider(
+        create: (context) => HomeCubit(),
+        child: HomeScreen(),
+      )
           : LoginScreen(),
     );
   }

@@ -60,6 +60,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '109028761168',
     projectId: 'session-22-itc',
     storageBucket: 'session-22-itc.firebasestorage.app',
+    iosClientId: '109028761168-uf4lc6s8lq9ae5ekhphorv29vol20lcc.apps.googleusercontent.com',
     iosBundleId: 'com.example.session23ItcFirebase',
   );
 

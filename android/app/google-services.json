@@ -12,7 +12,12 @@
           "package_name": "com.example.session_22_itc_firebase"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "109028761168-60odgno3v7u9ikk4vgdu5ltka8iatfns.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyD9_AI3HlTS0nSwI5oH5rl2cPk2BIM3rd0"
@@ -20,7 +25,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "109028761168-60odgno3v7u9ikk4vgdu5ltka8iatfns.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "109028761168-u5jdsrunld1mqeql3jkvn7pa23qoti9n.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.session22ItcFirebase"
+              }
+            }
+          ]
         }
       }
     },
@@ -31,7 +48,12 @@
           "package_name": "com.example.session_23_itc_firebase"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "109028761168-60odgno3v7u9ikk4vgdu5ltka8iatfns.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyD9_AI3HlTS0nSwI5oH5rl2cPk2BIM3rd0"
@@ -39,7 +61,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "109028761168-60odgno3v7u9ikk4vgdu5ltka8iatfns.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "109028761168-u5jdsrunld1mqeql3jkvn7pa23qoti9n.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.session22ItcFirebase"
+              }
+            }
+          ]
         }
       }
     }
