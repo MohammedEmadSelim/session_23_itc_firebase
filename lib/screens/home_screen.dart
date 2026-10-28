@@ -5,6 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:session_23_itc_firebase/cubits/home_cubit/home_cubit.dart';
 import 'package:session_23_itc_firebase/models/todo_model.dart';
 import 'package:session_23_itc_firebase/screens/login_screen.dart';
+import 'package:session_23_itc_firebase/screens/widgets/todo_card.dart';
+import 'package:session_23_itc_firebase/screens/widgets/todo_creation_editing_widget.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -43,6 +45,11 @@ class _HomeScreenState extends State<HomeScreen> {
               SizedBox(height: 100),
               Expanded(
                 child: BlocBuilder<HomeCubit, HomeState>(
+                  buildWhen: (previous, current) =>  current is GetTodosLoading||
+                      current is GetTodosError||
+                      current is GetTodosSuccess
+
+                  ,
                   builder: (context, state) {
                     print(state);
                     if (state is GetTodosLoading) {
@@ -65,90 +72,12 @@ class _HomeScreenState extends State<HomeScreen> {
                         itemCount: todos.length,
                         itemBuilder: (context, index) {
                           var todo = todos[index];
-                          return Container(
-                            height: 290,
-                            width: 500,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(12),
-                              color: Colors.pinkAccent,
-                            ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 12.0,
-                                  ),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        todo.id,
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.w700,
-                                        ),
-                                      ),
-                                      GestureDetector(
-                                        onTap: () {
-                                          showModalBottomSheet(
-                                            context: context,
-                                            builder: (context) => BlocProvider(
-                                              create: (context) => HomeCubit(),
-                                              child: CustomTodoCreation(
-                                                isEditing: true,
-                                                todo: todo,
-                                              ),
-                                            ),
-                                            isScrollControlled: true,
-                                          ).then((value) {
-                                            context
-                                                .read<HomeCubit>()
-                                                .fetchTodos();
-                                          });
-                                          ;
-                                        },
-                                        child: Icon(
-                                          Icons.edit,
-                                          size: 34,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-
-                                Text(
-                                  todo.title,
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
-                                Text(
-                                  todo.body,
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                                Text(
-                                  "${todo.createdAt.year}-${todo.createdAt.month}-${todo.createdAt.day}",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          );
+                          return TodoCard(todo: todo);
                         },
                       );
+                    }
+                    if( state is DeleteTodoLoading || state is DeleteTodoSuccess){
+                      return Center(child: Text("DeleteTodoLoading"));
                     }
                     return SizedBox();
                   },
@@ -175,6 +104,9 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
+
+
+
           showModalBottomSheet(
             context: context,
             builder: (_) {
@@ -192,107 +124,4 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-class CustomTodoCreation extends StatefulWidget {
-  CustomTodoCreation({super.key, this.isEditing = false, this.todo});
 
-  final bool? isEditing;
-
-  final Todo? todo;
-
-  @override
-  State<CustomTodoCreation> createState() => _CustomTodoCreationState();
-}
-
-class _CustomTodoCreationState extends State<CustomTodoCreation> {
-  late TextEditingController _titleController;
-
-  late TextEditingController _bodyController;
-
-  @override
-  void initState() {
-    if (widget.isEditing!) {
-      _titleController = TextEditingController(text: widget.todo!.title);
-      _bodyController = TextEditingController(text: widget.todo!.body);
-    } else {
-      _titleController = TextEditingController();
-      _bodyController = TextEditingController();
-    }
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: 700,
-      child: Column(
-        children: [
-          SizedBox(height: 14),
-
-          Container(
-            width: 54,
-            height: 4,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(12),
-              color: Colors.grey,
-            ),
-          ),
-          SizedBox(height: 100),
-          TextFormField(
-            controller: _titleController,
-            decoration: InputDecoration(
-              hintText: "Title",
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-            ),
-          ),
-          SizedBox(height: 24),
-          TextFormField(
-            controller: _bodyController,
-            decoration: InputDecoration(
-              hintText: "body",
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-            ),
-            maxLines: 16,
-          ),
-
-          ElevatedButton(
-            onPressed: () async {
-              var firestore = FirebaseFirestore.instance;
-
-              if (widget.isEditing!) {
-                var x = context.read<HomeCubit>().editTodo(
-                  todo: widget.todo!,
-                  title: _titleController.text,
-                  body: _bodyController.text,
-                );
-
-                if (x) {
-                  Navigator.pop(context);
-                }
-              } else {
-                var doc = firestore.collection("todos").doc();
-
-                doc.set({
-                  "id": doc.id,
-                  "title": _titleController.text,
-                  "body": _bodyController.text,
-                  "createdAt": DateTime.now(),
-                });
-              }
-            },
-            child: Text("Add Todo", style: TextStyle(color: Colors.green)),
-          ),
-        ],
-      ),
-    );
-  }
-}

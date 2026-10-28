@@ -16,3 +16,11 @@ class GetTodosSuccess extends HomeState{
 
   GetTodosSuccess(this.todos);
 }
+final class DeleteTodoLoading extends HomeState {}
+final class DeleteTodoFailure extends HomeState {
+  final String message;
+
+  DeleteTodoFailure(this.message);
+}
+final class DeleteTodoSuccess extends HomeState {}
+

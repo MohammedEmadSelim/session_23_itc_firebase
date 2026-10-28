@@ -20,25 +20,56 @@ class HomeCubit extends Cubit<HomeState> {
       }).toList();
       emit(GetTodosSuccess(docs));
     } catch (e) {
-      if(e is TypeError){
+      if (e is TypeError) {
         print(e.stackTrace);
       }
       emit(GetTodosError(e.toString()));
     }
   }
 
-  bool editTodo({required Todo todo,required String title,required String body}){
+  bool createTodo({required final String title, required final String body}) {
     var firestore = FirebaseFirestore.instance;
-    var doc = firestore.collection("todos").doc(todo!.id);
-
-
 
     try{
-      doc.update({"title": title, "body": body, "createdAt": DateTime.now()});
+
+      var doc = firestore.collection("todos").doc();
+
+      doc.set({
+        "id": doc.id,
+        "title": title,
+        "body": body,
+        "createdAt": DateTime.now(),
+      });
       return true;
-    } catch(e){
+    } catch (e){
       return false;
     }
   }
-}
 
+  bool editTodo({
+    required Todo todo,
+    required String title,
+    required String body,
+  }) {
+    var firestore = FirebaseFirestore.instance;
+    var doc = firestore.collection("todos").doc(todo!.id);
+
+    try {
+      doc.update({"title": title, "body": body, "createdAt": DateTime.now()});
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  void deleteTodo(String id){
+    emit(DeleteTodoLoading());
+    try{
+      var firestore = FirebaseFirestore.instance;
+      var doc = firestore.collection('todos').doc(id).delete();
+      emit(DeleteTodoSuccess());
+    }catch(e){
+      emit(DeleteTodoFailure(e.toString()));
+    }
+  }
+}
