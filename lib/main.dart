@@ -6,8 +6,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:session_23_itc_firebase/cubits/home_cubit/home_cubit.dart';
-import 'package:session_23_itc_firebase/home_screen.dart';
-import 'package:session_23_itc_firebase/login_screen.dart';
+import 'package:session_23_itc_firebase/screens/home_screen.dart';
+import 'package:session_23_itc_firebase/screens/login_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

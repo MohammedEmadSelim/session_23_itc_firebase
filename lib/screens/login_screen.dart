@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:session_23_itc_firebase/home_screen.dart';
+import 'package:session_23_itc_firebase/screens/home_screen.dart';
 
 import 'signup_screen.dart';
 

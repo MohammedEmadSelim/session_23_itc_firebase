@@ -26,5 +26,19 @@ class HomeCubit extends Cubit<HomeState> {
       emit(GetTodosError(e.toString()));
     }
   }
+
+  bool editTodo({required Todo todo,required String title,required String body}){
+    var firestore = FirebaseFirestore.instance;
+    var doc = firestore.collection("todos").doc(todo!.id);
+
+
+
+    try{
+      doc.update({"title": title, "body": body, "createdAt": DateTime.now()});
+      return true;
+    } catch(e){
+      return false;
+    }
+  }
 }
 
